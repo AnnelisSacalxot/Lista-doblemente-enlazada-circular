@@ -7,37 +7,69 @@ d3.select("#lienzo").graphviz()
 .renderDot("digraph {a -> b}")
 */
 
-
-
 class Nodo {
     constructor(_numCarne){
        this.numCarne = _numCarne
         //apuntando hacia el siguiente elemento
         this.siguiente = null
+        this.anterior = null
     }
 }
 
-class ListaSimple{
+class ListaDoble{
     constructor(){
         this.cabeza = null
+        this.ultimo = null
+        this.tam = 0
     }
 
     //metodo para agregar numero de carne
-    agregarNum(_objetoNum){
-        var tempo = new Nodo(_objetoNum)
-        tempo.siguiente = this.cabeza
-        this.cabeza = tempo
+    agregarNum(_numE){
+        
+        //tempo = new Nodo(_objetoNum)
+        var mostrar = new numero(_numE)
+        var tempo = new Nodo(mostrar)
+        /*tempo.siguiente = this.cabeza
+        this.cabeza = tempo*/
+        //empezamos a contruir nuestras condiciones para lo doble enlazado
+        if (this.cabeza == null) {
+            this.cabeza = tempo
+            this.ultimo = this.cabeza
+            //ida
+            this.cabeza.siguiente = this.ultimo
+            this.cabeza.anterior = this.ultimo
+            //regreso
+            this.ultimo.siguiente = this.cabeza
+            this.ultimo.anterior = this.cabeza
+            this.tam++;
+        } else{
+            this.ultimo.siguiente = tempo
+            tempo.anterior = this.ultimo
+            this.ultimo = tempo
+            this.cabeza.anterior = this.ultimo
+            this.ultimo.siguiente = this.cabeza
+            this.tam++;
+        }
     }
 
     mostrarNum(){
        var temporalmuestra = this.cabeza
+       var cont = 0
 
-        //mientras temporal no sea nulo se seguira mostrando y si no termina el ciclo
+       /*
+               //mientras temporal no sea nulo se seguira mostrando y si no termina el ciclo
         //(ya no hay otro elemento)
-        while (temporalmuestra != null) {
+         while (temporalmuestra != null) {
             console.log(temporalmuestra.numCarne.numerito)
             //llamamos al siguiente nodo o numero
             temporalmuestra = temporalmuestra.siguiente
+        }*/
+
+        //muestro la doble lista 
+        while (cont<this.tam) {
+            console.log(temporalmuestra.numCarne)
+            temporalmuestra = temporalmuestra.siguiente
+            cont++;
         }
     }
 
@@ -77,7 +109,7 @@ class numero{
     }
 }
 
-var listaNumeroCarne = new ListaSimple();
+var listaNumeroCarne = new ListaDoble();
 var elementoNumero = new numero("7")
 listaNumeroCarne.agregarNum(elementoNumero)
 elementoNumero = new numero("9")
@@ -99,4 +131,4 @@ listaNumeroCarne.agregarNum(elementoNumero)
 
 
 listaNumeroCarne.mostrarNum()
-listaNumeroCarne.graficarNumeros()
+//listaNumeroCarne.graficarNumeros()
